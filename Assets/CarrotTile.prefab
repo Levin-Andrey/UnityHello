@@ -8,6 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 495100}
+  - 114: {fileID: 11403948}
   m_Layer: 0
   m_Name: CarrotTile
   m_TagString: Untagged
@@ -143,6 +144,38 @@ Transform:
   - {fileID: 490146}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11403948
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 98
+    i1: 189
+    i2: 153
+    i3: 53
+    i4: 25
+    i5: 62
+    i6: 212
+    i7: 239
+    i8: 202
+    i9: 229
+    i10: 110
+    i11: 75
+    i12: 103
+    i13: 40
+    i14: 48
+    i15: 232
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &21217850
 SpriteRenderer:
   m_ObjectHideFlags: 1

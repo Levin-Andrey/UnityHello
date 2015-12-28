@@ -9,8 +9,11 @@ public class Avatar : NetworkBehaviour
 	[SyncVar]
 	private Vector3 tilePos;
 
+	private float lastSyncedTime;
+
 	void Update()
 	{
+		var curtime = Time.realtimeSinceStartup;
 		var dt = Time.deltaTime;
 		if (isLocalPlayer) {
 			if (Input.GetKeyDown(KeyCode.Space)) {
@@ -21,10 +24,14 @@ public class Avatar : NetworkBehaviour
 					0,
 					Input.GetKey(KeyCode.W) ? 1 : Input.GetKey(KeyCode.S) ? -1 : 0
 				);
+				move = Quaternion.AngleAxis(45, Vector3.up) * move;
 				transform.Translate(move.normalized * WalkingSpeed * dt);
-				Vector3 newTilePos = posToTile();
-				if (newTilePos != tilePos) {
-					CmdSetTilePos(newTilePos);
+				if (lastSyncedTime == 0.0f || (curtime - lastSyncedTime) > (1.41 / WalkingSpeed)) {
+					lastSyncedTime = curtime;
+					var newTilePos = posToTile();
+					if (newTilePos != tilePos) {
+						CmdSetTilePos(newTilePos);
+					}
 				}
 			}
 		} else {

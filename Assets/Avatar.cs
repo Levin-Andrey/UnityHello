@@ -28,7 +28,7 @@ public class Avatar : NetworkBehaviour
 				transform.Translate(move.normalized * WalkingSpeed * dt);
 				if (lastSyncedTime == 0.0f || (curtime - lastSyncedTime) > (1.41 / WalkingSpeed)) {
 					lastSyncedTime = curtime;
-					var newTilePos = posToTile();
+					var newTilePos = GridManager.PosToTile(transform.position);
 					if (newTilePos != tilePos) {
 						CmdSetTilePos(newTilePos);
 					}
@@ -37,13 +37,6 @@ public class Avatar : NetworkBehaviour
 		} else {
 			walkTowards(tilePos, dt);
 		}
-	}
-
-	private Vector3 posToTile() {
-		var tile = transform.position;
-		tile.x = Mathf.Floor(tile.x + 0.5f);
-		tile.z = Mathf.Floor(tile.z + 0.5f);
-		return tile;
 	}
 
 	private void walkTowards(Vector3 target, float dt) {
@@ -61,7 +54,14 @@ public class Avatar : NetworkBehaviour
 
 	[Command]
 	private void CmdPlant() {
-		var carrot = (GameObject)Instantiate(CarrotPrefab, tilePos, Quaternion.identity);
-		NetworkServer.Spawn(carrot);
+		var atPos = GridManager.At(tilePos);
+		if (atPos == null || atPos.ground == null) return;
+		if (atPos.content == null) {
+			var carrot = (GameObject)Instantiate(CarrotPrefab, tilePos, Quaternion.identity);
+			NetworkServer.Spawn(carrot);
+		} else {
+			var carrot = atPos.content;
+			Destroy(carrot);
+		}
 	}
 }

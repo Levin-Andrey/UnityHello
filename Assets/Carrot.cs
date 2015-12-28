@@ -11,6 +11,11 @@ public class Carrot : NetworkBehaviour {
 		creationTime = Time.realtimeSinceStartup;
 		initialSprite = gameObject.transform.Find("CarrotStageInitial").gameObject;
 		finalSprite = gameObject.transform.Find("CarrotStageFinal").gameObject;
+		var atPos = GridManager.At(GridManager.PosToTile(transform.position));
+		if (atPos == null || atPos.ground == null || atPos.content != null) {
+			throw new UnityException("OMG! Created in the void!");
+		}
+		atPos.content = gameObject;
 	}
 
 	[ServerCallback]

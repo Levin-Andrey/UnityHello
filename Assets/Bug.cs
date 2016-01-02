@@ -25,7 +25,6 @@ public class Bug : MonoBehaviour {
             if (tileValue != null || tileValue.content != null) {
                 Destroy(tileValue.content);
                 tileValue.content = null;
-                target = null;
             }
         }
     }

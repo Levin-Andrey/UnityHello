@@ -4,12 +4,17 @@ using UnityEngine.Networking;
 public class Avatar : NetworkBehaviour
 {
 	public float WalkingSpeed = 3.0f;
-	public GameObject CarrotPrefab;
+    public GameObject CarrotPrefab;
+    public SharedInventory sharedInv;
 
-	[SyncVar]
+    [SyncVar]
 	private Vector3 tilePos;
 
 	private float lastSyncedTime;
+
+    void Awake() {
+        sharedInv = GameObject.Find("SharedInventory").GetComponent<SharedInventory>();
+    }
 
 	void Update()
 	{
@@ -57,11 +62,17 @@ public class Avatar : NetworkBehaviour
 		var atPos = GridManager.At(tilePos);
 		if (atPos == null || atPos.ground == null) return;
 		if (atPos.content == null) {
-			var carrot = (GameObject)Instantiate(CarrotPrefab, tilePos, Quaternion.identity);
+            if (sharedInv.getCarrotsNum() == 0) {
+                return;
+            }
+            sharedInv.setCarrotsNum(sharedInv.getCarrotsNum() - 1);
+            var carrot = (GameObject)Instantiate(CarrotPrefab, tilePos, Quaternion.identity);
 			NetworkServer.Spawn(carrot);
 		} else {
 			var carrot = atPos.content;
-			Destroy(carrot);
+            sharedInv.setCarrotsNum(sharedInv.getCarrotsNum() + 1);
+            Destroy(carrot);
+            atPos.content = null;
 		}
 	}
 }

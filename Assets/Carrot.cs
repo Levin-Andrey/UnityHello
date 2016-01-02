@@ -2,10 +2,16 @@
 using UnityEngine.Networking;
 using System.Collections;
 
+public enum CarrotState {
+    initial, final
+};
+
 public class Carrot : NetworkBehaviour {
 	GameObject initialSprite;
 	GameObject finalSprite;
 	float creationTime;
+    [SyncVar]
+    public CarrotState carSt = CarrotState.initial;
 
 	void Awake() {
 		creationTime = Time.realtimeSinceStartup;
@@ -22,7 +28,8 @@ public class Carrot : NetworkBehaviour {
 	void Update() {
 		var curtime = Time.realtimeSinceStartup;
 		if ((curtime - creationTime) > 5.0f) {
-			RpcSetSpriteFinal();
+            carSt = CarrotState.final;
+            RpcSetSpriteFinal();
 		}
 	}
 

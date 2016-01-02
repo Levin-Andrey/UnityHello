@@ -70,7 +70,13 @@ public class Avatar : NetworkBehaviour
 			NetworkServer.Spawn(carrot);
 		} else {
 			var carrot = atPos.content;
-            sharedInv.setCarrotsNum(sharedInv.getCarrotsNum() + 1);
+            int plusCarrots;
+            if (carrot.GetComponent<Carrot>().carSt == CarrotState.final) {
+                plusCarrots = 2;
+            } else {
+                plusCarrots = 1;
+            }
+            sharedInv.setCarrotsNum(sharedInv.getCarrotsNum() + plusCarrots);
             Destroy(carrot);
             atPos.content = null;
 		}

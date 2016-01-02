@@ -5316,7 +5316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a39a69b7b4ea247b6fedb62404bc85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CarrotsNum: 0
+  CarrotsNum: 2
   carrotsNumText: {fileID: 0}
 --- !u!114 &1764136714
 MonoBehaviour:
